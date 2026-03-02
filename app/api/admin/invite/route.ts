@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     const { data: inviteData, error: inviteError } = await serviceClient.auth.admin.inviteUserByEmail(email, {
       data: { full_name, role: role || 'user' },
-      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/update-password`,
+      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/update-password`,
     });
 
     if (inviteError) throw inviteError;

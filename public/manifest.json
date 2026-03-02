@@ -1,7 +1,7 @@
 {
-  "name": "Ministry Inventory",
-  "short_name": "Inventory",
-  "description": "Children's Ministry Inventory Management",
+  "name": "Ark Kids Inventory",
+  "short_name": "Ark Kids",
+  "description": "Ark Kids Inventory Management",
   "start_url": "/dashboard",
   "display": "standalone",
   "background_color": "#ffffff",

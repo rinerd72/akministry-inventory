@@ -9,8 +9,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { QrCode, Keyboard } from 'lucide-react';
 
-const QrScanner = dynamic(
-  () => import('@yudiel/react-qr-scanner').then(mod => mod.QrScanner),
+const Scanner = dynamic(
+  () => import('@yudiel/react-qr-scanner').then(mod => ({ default: mod.Scanner })),
   { ssr: false, loading: () => <div className="aspect-square bg-gray-900 rounded-xl flex items-center justify-center"><p className="text-white">Loading camera...</p></div> }
 );
 
@@ -61,14 +61,15 @@ export default function ScanPage() {
         <Card>
           <CardContent className="p-4">
             <div className="rounded-xl overflow-hidden">
-              <QrScanner
-                onDecode={handleScan}
+              <Scanner
+                onScan={(detectedCodes) => {
+                  if (detectedCodes.length > 0) handleScan(detectedCodes[0].rawValue);
+                }}
                 onError={(err) => {
                   console.error(err);
                   setCameraError(true);
                 }}
-                containerStyle={{ borderRadius: '12px' }}
-                videoStyle={{ borderRadius: '12px' }}
+                styles={{ container: { borderRadius: '12px' }, video: { borderRadius: '12px' } }}
               />
             </div>
             {error && (

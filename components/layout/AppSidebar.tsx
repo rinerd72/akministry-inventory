@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -84,11 +85,11 @@ export default function AppSidebar({ profile }: AppSidebarProps) {
       {/* Logo */}
       <div className="p-4 border-b">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
-            <Package className="w-5 h-5 text-white" />
+          <div className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0">
+            <Image src="/icons/icon-192x192.png" alt="Ark Kids" width={36} height={36} className="w-full h-full object-cover" />
           </div>
           <div>
-            <p className="font-semibold text-sm">Ministry Inventory</p>
+            <p className="font-semibold text-sm">Ark Kids Inventory</p>
             <p className="text-xs text-muted-foreground capitalize">{profile.role}</p>
           </div>
         </div>

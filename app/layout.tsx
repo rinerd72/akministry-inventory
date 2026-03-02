@@ -6,10 +6,13 @@ import { Toaster } from '@/components/ui/toaster';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Children's Ministry Inventory",
-  description: 'Inventory management system for children\'s ministry',
+  title: "Ark Kids Inventory",
+  description: 'Inventory management system for Ark Kids',
   manifest: '/manifest.json',
-  icons: { apple: '/icons/icon-192x192.png' },
+  icons: {
+    icon: '/icons/icon-192x192.png',
+    apple: '/icons/icon-192x192.png',
+  },
 };
 
 export const viewport: Viewport = {

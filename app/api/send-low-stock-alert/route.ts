@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       await resend.emails.send({
         from: process.env.RESEND_FROM_EMAIL || 'noreply@ministry.org',
         to: admin.email,
-        subject: `[Ministry Inventory] ${lowStockItems.length} items are low on stock`,
+        subject: `[Ark Kids Inventory] ${lowStockItems.length} items are low on stock`,
         text: `The following items are at or below their minimum quantity:\n\n${itemsList}\n\nLog in to manage inventory: ${process.env.NEXT_PUBLIC_APP_URL}/items?stock=low`,
         html: `
           <h2>Low Stock Alert</h2>
