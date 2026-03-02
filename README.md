@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Children's Ministry Inventory System
 
-## Getting Started
+A full-featured inventory management system for children's ministries. Mobile-first, PWA-ready, with QR code scanning, role-based access control, and real-time stock tracking.
 
-First, run the development server:
+## Features
+
+- **Inventory Management** — Track items with photos, locations, quantities, and categories
+- **QR Code System** — Generate and scan QR codes to instantly access any item
+- **Check-Out / Check-In** — Loan tracking with purpose, return dates, and audit history
+- **Role-Based Access** — Admin / User / Guest with row-level security
+- **Low-Stock Alerts** — Dashboard warnings + email alerts via Resend
+- **CSV Reports** — Export inventory and checkout history
+- **PWA** — Installable on iPhone/Android, works offline for browsing
+- **Mobile-First** — Designed for phones and tablets
+
+## Tech Stack
+
+- **Next.js 14** (App Router, Server Components)
+- **Supabase** (PostgreSQL + Auth + Storage + RLS)
+- **Tailwind CSS + shadcn/ui**
+- **Hosted on Vercel (free)**
+
+## Setup Instructions
+
+### 1. Create Supabase Project
+
+1. Go to [supabase.com](https://supabase.com) and create a new project
+2. In the SQL Editor, run all SQL from `supabase/schema.sql`
+3. Note your **Project URL** and **Anon Key** from Settings > API
+
+### 2. Configure Environment Variables
+
+Copy `.env.local.example` to `.env.local` and fill in:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.local.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+NEXT_PUBLIC_APP_URL=https://your-app.vercel.app
+RESEND_API_KEY=re_your_key         # Optional: for email alerts
+RESEND_FROM_EMAIL=noreply@church.org
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Create First Admin User
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+In Supabase Dashboard > Authentication > Users > Invite User:
+- Create your first user
+- Then in SQL Editor, run:
 
-## Learn More
+```sql
+UPDATE profiles SET role = 'admin' WHERE email = 'your-email@church.org';
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Run Locally
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm install
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open [http://localhost:3000](http://localhost:3000)
 
-## Deploy on Vercel
+### 5. Deploy to Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Push to GitHub, then:
+# 1. Create new Vercel project from your GitHub repo
+# 2. Add all environment variables in Vercel settings
+# 3. Deploy — done!
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## PWA Icons
+
+Generate icons at [pwabuilder.com](https://www.pwabuilder.com/imageGenerator) and place in `public/icons/`:
+- `icon-192x192.png`
+- `icon-512x512.png`
+
+## Role Permissions
+
+| Feature | Guest | User | Admin |
+|---------|-------|------|-------|
+| View items | Yes | Yes | Yes |
+| Check out/in | | Yes | Yes |
+| Add/edit items | | Yes | Yes |
+| Delete items | | | Yes |
+| Admin panel | | | Yes |
+
+## QR Code Workflow
+
+1. Add an item - QR code auto-generated
+2. Print the QR label from the item detail page
+3. Scan with any QR reader (or `/scan` in the app) - opens item page
+4. Tap "Check Out" or "Check In"
+
+## Important Notes
+
+- **Supabase free tier** pauses after 1 week of inactivity
+- **Camera on iOS** requires HTTPS (works automatically on Vercel)
+- Items are **never hard-deleted** - soft delete keeps QR codes valid forever
+- All changes are tracked in the **audit log** (admin-only)
