@@ -1,5 +1,3 @@
-import withPWA from 'next-pwa';
-
 const securityHeaders = [
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -16,7 +14,6 @@ const securityHeaders = [
 const nextConfig = {
   reactStrictMode: true,
   typescript: {
-    // Supabase join query types require runtime data — suppress during build
     ignoreBuildErrors: true,
   },
   images: {
@@ -37,11 +34,4 @@ const nextConfig = {
   },
 };
 
-const withPWAConfig = withPWA({
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
-});
-
-export default withPWAConfig(nextConfig);
+export default nextConfig;
